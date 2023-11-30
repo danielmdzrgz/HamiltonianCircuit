@@ -28,5 +28,5 @@ poetry add -D <package-name>
 ### To add new commands, edit the pyproject.toml file
 ```bash
 [tool.poetry.scripts] # find this section
-dev = "hamiltonian_circuit.main:dev" # add a new line here, where dev is the name of the command and quicktype.main:dev is the path to the function
+dev = "hamiltonian_circuit.main:dev" # add a new line here, where dev is the name of the command and hamiltonian_circuit.main:dev is the path to the function
 ```
