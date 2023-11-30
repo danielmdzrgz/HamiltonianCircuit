@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "hamiltoniancircuit"
+version = "0.1.0"
+description = ""
+authors = ["cracksuxer <julior@keytrends.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+rich = "^13.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
