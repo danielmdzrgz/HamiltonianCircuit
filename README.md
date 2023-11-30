@@ -1,4 +1,4 @@
-# HamiltonianCircuit
+# HamiltonianCircuit - Vertex Cover Viewer
 
 ## To install poetry follow the instructions here
 ```bash
