@@ -7,9 +7,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+pyyaml = "^6.0.1"
+matplotlib = "^3.8.2"
+networkx = "^3.2.1"
 
 [tool.poetry.group.dev.dependencies]
 rich = "^13.7.0"
+
+[tool.poetry.scripts]
+dev = "hamiltoniancircuit.input_reader:run"
 
 [build-system]
 requires = ["poetry-core"]
