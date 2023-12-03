@@ -7,5 +7,5 @@ vertexes:
 edges:
   - [A, B]
   - [A, C]
-  - [B, C]
-  - [C, D]
+  - [A, D]
+  - [B, D]
