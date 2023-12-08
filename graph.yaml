@@ -1,0 +1,11 @@
+vertexes:
+  - A
+  - B
+  - C
+  - D
+
+edges:
+  - [A, B]
+  - [A, C]
+  - [A, D]
+  - [B, D]
