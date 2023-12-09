@@ -4,6 +4,7 @@ import uuid
 from rich.traceback import install
 from rich.console import Console
 from hamiltoniancircuit.gadget import Gadget
+from hamiltoniancircuit.selector import Selector
 
 install()
 console = Console()
@@ -25,3 +26,14 @@ def test() -> None:
 
     console.print(gadget)
     console.print(gadget2)
+
+    selector = Selector()
+    selector.connect_gadget(gadget)
+    selector.connect_gadget(gadget2)
+    console.print(selector)
+    # selector.connect_gadget(gadget)
+
+    selector2 = Selector()
+    selector2.connect_gadget(gadget)
+    # selector2.connect_gadget(selector)
+    console.print(selector2)
