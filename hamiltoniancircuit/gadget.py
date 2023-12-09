@@ -23,28 +23,34 @@ class Gadget:
         type(self).number_of_gadgets += 1
         self.id = type(self).number_of_gadgets
 
-    def join_right(self, position: int, gadget: Gadget) -> None:
-        """Join a gadget to the right."""    
-        self.right_[1].append({position: gadget})
+    def join_right(self, gadget: Union[Gadget, None], position: int = 6) -> None:
+        """Join a gadget to the right."""
+        if gadget:
+            self.right_[1].append({position: gadget})
+        else:
+            pass
 
-    def join_left(self, position: int, gadget: Gadget) -> None:
+    def join_left(self, gadget: Union[Gadget, None], position: int = 6) -> None:
         """Join a gadget to the left."""
-        self.left_[1].append({position: gadget})
+        if gadget:
+            self.left_[1].append({position: gadget})
+        else:
+            pass
 
     def join(
         self,
         side: Union[Literal["Right"], Literal["Left"]],
-        position: int,
         gadget: Gadget,
+        position: int = 6,
     ) -> None:
         """Join a gadget to the left or right."""
         if gadget.id == self.id:
             raise ValueError("Cannot join gadget to itself.")
 
         if side == "Right":
-            self.join_right(position, gadget)
+            self.join_right(gadget, position)
         else:
-            self.join_left(position, gadget)
+            self.join_left(gadget, position)
 
     def __str__(self) -> str:
         """Return a string representation of the gadget."""

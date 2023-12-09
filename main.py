@@ -1,11 +1,9 @@
 """Main module for the VC to HC transformation."""
 
-from platform import node
 import uuid
 from rich.traceback import install
 from rich.console import Console
 from hamiltoniancircuit.gadget import Gadget
-
 
 install()
 console = Console()
@@ -22,8 +20,8 @@ def test() -> None:
     gadget2 = Gadget(node_2, node_3)
     gadget3 = Gadget(node_3, node_4)
 
-    gadget.join("Right", 1, gadget2)
-    gadget.join("Right", 2, gadget3)
+    gadget.join("Right", gadget2)
+    gadget.join("Right", gadget3)
 
     console.print(gadget)
     console.print(gadget2)
