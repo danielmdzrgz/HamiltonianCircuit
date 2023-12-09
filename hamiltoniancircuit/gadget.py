@@ -6,7 +6,8 @@ Gadgets are used to connect the new graph based on the Vertex Cover instance'e e
 """
 
 from __future__ import annotations
-from typing import Dict, List, Literal, Union
+from typing import Dict, List, Literal, Union, Tuple
+from uuid import UUID
 
 class Gadget:
     """Gadget class for Hamiltonian Circuit problem."""
@@ -14,21 +15,21 @@ class Gadget:
     number_of_gadgets: int = 0
     id: int = 0
 
-    def __init__(self) -> None:
+    def __init__(self, right_id: UUID, left_id: UUID) -> None:
         """Initialize a gadget."""
-        self.right_: List[Dict[int, Gadget]] = []
-        self.left_: List[Dict[int, Gadget]] = []
+        self.right_: Tuple[UUID, List[Dict[int, Gadget]]] = (right_id, [{}])
+        self.left_: Tuple[UUID, List[Dict[int, Gadget]]] = (left_id, [{}])
 
         type(self).number_of_gadgets += 1
         self.id = type(self).number_of_gadgets
 
     def join_right(self, position: int, gadget: Gadget) -> None:
         """Join a gadget to the right."""    
-        self.right_.append({position: gadget})
+        self.right_[1].append({position: gadget})
 
     def join_left(self, position: int, gadget: Gadget) -> None:
         """Join a gadget to the left."""
-        self.left_.append({position: gadget})
+        self.left_[1].append({position: gadget})
 
     def join(
         self,
@@ -50,7 +51,7 @@ class Gadget:
         right_connections = ", ".join(
             [
                 f"{key}: G-{gadget.id}"
-                for dct in self.right_
+                for dct in self.right_[1]
                 for key, gadget in dct.items()
             ]
         )
@@ -58,7 +59,7 @@ class Gadget:
         left_connections = ", ".join(
             [
                 f"{key}: G-{gadget.id}"
-                for dct in self.left_
+                for dct in self.left_[1]
                 for key, gadget in dct.items()
             ]
         )
