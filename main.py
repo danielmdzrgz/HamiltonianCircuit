@@ -1,6 +1,7 @@
 """Main module for the VC to HC transformation."""
 
 import uuid
+from typing import List
 from rich.traceback import install
 from rich.console import Console
 from hamiltoniancircuit.gadget import Gadget
@@ -8,6 +9,16 @@ from hamiltoniancircuit.selector import Selector
 
 install()
 console = Console()
+
+
+def create_selectors(k_number: int) -> List[Selector]:
+    """Create the selectors for the transformation."""
+    selectors = []
+    for _ in range(k_number):
+        selectors.append(Selector())
+
+    return selectors
+
 
 def test() -> None:
     """a"""
@@ -37,3 +48,8 @@ def test() -> None:
     selector2.connect_gadget(gadget)
     # selector2.connect_gadget(selector)
     console.print(selector2)
+
+    k_number: int = 2
+    selectors = create_selectors(k_number)
+    for selector in selectors:
+        console.print(selector)
