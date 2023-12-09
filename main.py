@@ -1,6 +1,9 @@
 """Main module for the VC to HC transformation."""
 
+from platform import node
 import uuid
+from uuid import UUID
+from typing import List
 from rich.traceback import install
 from rich.console import Console
 from hamiltoniancircuit.gadget import Gadget
@@ -15,6 +18,8 @@ def test() -> None:
     node_2 = uuid.uuid4()
     node_3 = uuid.uuid4()
     node_4 = uuid.uuid4()
+
+    list_node: List[UUID] = [node_1, node_2, node_3, node_4]
 
     gadget = Gadget(node_1, node_2)
     gadget2 = Gadget(node_2, node_3)
