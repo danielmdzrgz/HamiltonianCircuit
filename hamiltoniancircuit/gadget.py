@@ -23,6 +23,10 @@ class Gadget:
         type(self).number_of_gadgets += 1
         self.id = type(self).number_of_gadgets
 
+    def contains(self, node: UUID) -> bool:
+        """Return True if the gadget contains the node."""
+        return node in (self.right_[0], self.left_[0])
+
     def join_right(self, gadget: Union[Gadget, None], position: int = 6) -> None:
         """Join a gadget to the right."""
         if gadget:
