@@ -20,6 +20,7 @@ class Gadget:
     @dataclass
     class GadgetSide:
         """Gadget side class."""
+
         node_id: UUID
         gadget_nodes: List[Dict[int, Gadget]]
 
@@ -37,8 +38,10 @@ class Gadget:
 
     def contains_gadget(self, gadget: Gadget) -> bool:
         """Return True if the gadget contains the gadget."""
-        return any(gadget in dct.values()
-                   for dct in self.right_.gadget_nodes + self.left_.gadget_nodes)
+        return any(
+            gadget in dct.values()
+            for dct in self.right_.gadget_nodes + self.left_.gadget_nodes
+        )
 
     def join_right(self, gadget: Gadget, position) -> None:
         """Join a gadget to the right."""
@@ -49,7 +52,7 @@ class Gadget:
 
     def join_left(self, gadget: Gadget, position) -> None:
         """Join a gadget to the left."""
-        if any(position in dct for dct in self.right_.gadget_nodes):
+        if any(position in dct for dct in self.left_.gadget_nodes):
             raise ValueError("Position already taken in left side.")
 
         self.left_.gadget_nodes.append({position: gadget})
@@ -78,7 +81,6 @@ class Gadget:
         else:
             o_gadget.join_left(self, 1)
 
-
     def __str__(self) -> str:
         """Return a string representation of the gadget."""
         right_connections = ", ".join(
@@ -97,11 +99,17 @@ class Gadget:
             ]
         )
 
-        right_str = f"R[{self.right_.node_id}] :" \
-                    f"[{right_connections}]" if right_connections else "R : []"
+        right_str = (
+            f"R[{self.right_.node_id}] :[{right_connections}]"
+            if right_connections
+            else f"R[{self.right_.node_id}] :[]"
+        )
 
-        left_str = f"L[{self.left_.node_id}] :" \
-                    f"[{left_connections}]" if left_connections else "L : []"
+        left_str = (
+            f"L[{self.left_.node_id}] :[{left_connections}]"
+            if left_connections
+            else f"L[{self.left_.node_id}] :[]"
+        )
 
         return f"Gadget ID: {self.id}, {right_str}, {left_str}"
 
