@@ -6,6 +6,8 @@ from rich.console import Console
 from hamiltoniancircuit.gadget import Gadget
 from hamiltoniancircuit.selector import Selector
 import hamiltoniancircuit.selector_tools.tools as tools
+from hamiltoniancircuit.gadget_tools.tools import create_gadgets
+import hamiltoniancircuit.input_reader as input_reader
 
 install()
 console = Console()
@@ -13,6 +15,11 @@ console = Console()
 
 def test() -> None:
     """a"""
+    graph_data = input_reader.read_graph()
+    gadgets = create_gadgets(graph_data)
+    for gadget in gadgets:
+        console.print(gadget)
+
 
     node_1 = uuid4()
     node_2 = uuid4()
