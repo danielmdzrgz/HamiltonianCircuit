@@ -98,10 +98,10 @@ class Gadget:
         )
 
         right_str = f"R[{self.right_.node_id}] :" \
-                    "[{right_connections}]" if right_connections else "R : []"
+                    f"[{right_connections}]" if right_connections else "R : []"
 
         left_str = f"L[{self.left_.node_id}] :" \
-                    "[{left_connections}]" if left_connections else "L : []"
+                    f"[{left_connections}]" if left_connections else "L : []"
 
         return f"Gadget ID: {self.id}, {right_str}, {left_str}"
 
