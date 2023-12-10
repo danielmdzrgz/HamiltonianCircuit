@@ -11,16 +11,16 @@ def gadget_algorithm(gadgets: List[Gadget], nodes: List[UUID]) -> List[Gadget]:
     previous_gadget: int = -1
     previous_side: Union[Literal["Right"], Literal["Left"]] = "Left"
     for i in range(len(gadgets)):
-      if gadgets[i].contains(node):
+      if gadgets[i].contains_node(node):
         current_side: Union[Literal["Right"], Literal["Left"]]
-        if gadgets[i].left_[0] == node:
+        if gadgets[i].left_.node_id == node:
           current_side = "Left"
         else:
           current_side = "Right"
         current_gadget = i
         if previous_gadget != -1:
-          gadgets[previous_gadget].join(previous_side, gadgets[current_gadget], 1)
-          gadgets[current_gadget].join(current_side, gadgets[previous_gadget], 6)
+          gadgets[previous_gadget].join(previous_side, gadgets[current_gadget], current_side, 6)
         previous_gadget = current_gadget
         previous_side = current_side
+    
   return gadgets

@@ -23,12 +23,16 @@ def test() -> None:
     gadget3 = Gadget(node_2, node_1)
     gadget4 = Gadget(node_4, node_2)
 
-    gadget.join("Left", gadget2, "Left")
-    gadget2.join("Left", gadget3, "Left")
-    gadget.join("Right", gadget3, "Right")
+    #gadget.join("Left", gadget2, "Left")
+    #gadget2.join("Left", gadget3, "Left")
+    #gadget.join("Right", gadget3, "Right")
+
+    gadget_algorithm([gadget1, gadget2, gadget3, gadget4], [node_1, node_2, node_3, node_4])
 
     console.print(gadget1)
     console.print(gadget2)
+    console.print(gadget3)
+    console.print(gadget4)
 
     # selector = Selector()
     # selector.connect_gadget(gadget)
