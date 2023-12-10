@@ -1,59 +1,50 @@
 """Main module for the VC to HC transformation."""
 
-from platform import node
-
-from uuid import UUID
-from typing import List
+from uuid import uuid4
 from rich.traceback import install
 from rich.console import Console
 from hamiltoniancircuit.gadget import Gadget
 from hamiltoniancircuit.selector import Selector
+import hamiltoniancircuit.selector_tools.tools as tools
 
 install()
 console = Console()
 
 
-def create_selectors(k_number: int) -> List[Selector]:
-    """Create the selectors for the transformation."""
-    selectors = []
-    for _ in range(k_number):
-        selectors.append(Selector())
-
-    return selectors
-
-
 def test() -> None:
     """a"""
 
-    node_1 = uuid.uuid4()
-    node_2 = uuid.uuid4()
-    node_3 = uuid.uuid4()
-    node_4 = uuid.uuid4()
-
-    list_node: List[UUID] = [node_1, node_2, node_3, node_4]
+    node_1 = uuid4()
+    node_2 = uuid4()
+    node_3 = uuid4()
+    node_4 = uuid4()
 
     gadget = Gadget(node_1, node_2)
     gadget2 = Gadget(node_2, node_3)
     gadget3 = Gadget(node_3, node_4)
 
     gadget.join("Right", gadget2)
+    gadget2.join("Left", gadget, 1)
     gadget.join("Right", gadget3)
 
     console.print(gadget)
     console.print(gadget2)
 
-    selector = Selector()
-    selector.connect_gadget(gadget)
-    selector.connect_gadget(gadget2)
-    console.print(selector)
+    # selector = Selector()
     # selector.connect_gadget(gadget)
+    # selector.connect_gadget(gadget2)
+    # console.print(selector)
+    # # selector.connect_gadget(gadget)
 
-    selector2 = Selector()
-    selector2.connect_gadget(gadget)
-    # selector2.connect_gadget(selector)
-    console.print(selector2)
+    # selector2 = Selector()
+    # selector2.connect_gadget(gadget)
+    # # selector2.connect_gadget(selector)
+    # console.print(selector2)
+    gadget.join("Left", gadget2)
+    gadget3.join("Left", gadget)
+    # console.print(gadget)
+    # console.print(gadget2)
 
-    k_number: int = 2
-    selectors = create_selectors(k_number)
-    for selector in selectors:
+    selector_list = tools.make_connections(2, [gadget, gadget2, gadget3])
+    for selector in selector_list:
         console.print(selector)
