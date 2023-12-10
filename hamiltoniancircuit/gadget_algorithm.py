@@ -5,7 +5,7 @@ from uuid import UUID
 from hamiltoniancircuit.gadget import Gadget
 from rich.console import Console
 
-def gadget_algorithm(gadgets: List[Gadget], nodes: List[UUID]):
+def gadget_algorithm(gadgets: List[Gadget], nodes: List[UUID]) -> List[Gadget]:
   for node in nodes:
     current_gadget: int = -1
     previous_gadget: int = -1
@@ -23,3 +23,4 @@ def gadget_algorithm(gadgets: List[Gadget], nodes: List[UUID]):
           gadgets[current_gadget].join(current_side, gadgets[previous_gadget], 6)
         previous_gadget = current_gadget
         previous_side = current_side
+  return gadgets
