@@ -20,12 +20,6 @@ def test() -> None:
     node_3 = uuid.uuid4()
     node_4 = uuid.uuid4()
 
-    console.print(node_1)
-    console.print(node_2)
-    console.print(node_3)
-    console.print(node_4)
-    console.print("\n")
-
     list_node: List[UUID] = [node_1, node_2, node_3, node_4]
 
     gadget1 = Gadget(node_3, node_1)

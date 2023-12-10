@@ -6,9 +6,7 @@ from hamiltoniancircuit.gadget import Gadget
 from rich.console import Console
 
 def gadget_algorithm(gadgets: List[Gadget], nodes: List[UUID]):
-  console = Console()
   for node in nodes:
-    console.print(node)
     current_gadget: int = -1
     previous_gadget: int = -1
     previous_side: Union[Literal["Right"], Literal["Left"]] = "Left"
@@ -19,18 +17,9 @@ def gadget_algorithm(gadgets: List[Gadget], nodes: List[UUID]):
           current_side = "Left"
         else:
           current_side = "Right"
-        console.print(gadgets[i])
-        console.print(current_side)
         current_gadget = i
         if previous_gadget != -1:
           gadgets[previous_gadget].join(previous_side, gadgets[current_gadget], 1)
           gadgets[current_gadget].join(current_side, gadgets[previous_gadget], 6)
         previous_gadget = current_gadget
         previous_side = current_side
-  
-
-
-    console.print("\n")
-        
-        
-
