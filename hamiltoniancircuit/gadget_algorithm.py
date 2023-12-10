@@ -7,19 +7,28 @@ from rich.console import Console
 
 def gadget_algorithm(gadgets: List[Gadget], nodes: List[UUID]):
   console = Console()
-  current_gadget: Gadget
-  previus_gadget: Gadget
   for node in nodes:
     console.print(node)
-    for gadget in gadgets:
-      if gadget.contains(node):
-        side: str = ""
-        if gadget.left_[0] == node:
-          side = "Left"
+    current_gadget: int = -1
+    previous_gadget: int = -1
+    previous_side: Union[Literal["Right"], Literal["Left"]] = "Left"
+    for i in range(len(gadgets)):
+      if gadgets[i].contains(node):
+        current_side: Union[Literal["Right"], Literal["Left"]]
+        if gadgets[i].left_[0] == node:
+          current_side = "Left"
         else:
-          side = "Right"
-        console.print(gadget)
-        console.print(side)
+          current_side = "Right"
+        console.print(gadgets[i])
+        console.print(current_side)
+        current_gadget = i
+        if previous_gadget != -1:
+          gadgets[previous_gadget].join(previous_side, gadgets[current_gadget], 1)
+          gadgets[current_gadget].join(current_side, gadgets[previous_gadget], 6)
+        previous_gadget = current_gadget
+        previous_side = current_side
+  
+
 
     console.print("\n")
         

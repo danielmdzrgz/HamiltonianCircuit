@@ -19,11 +19,13 @@ def test() -> None:
     node_2 = uuid.uuid4()
     node_3 = uuid.uuid4()
     node_4 = uuid.uuid4()
+
     console.print(node_1)
     console.print(node_2)
     console.print(node_3)
     console.print(node_4)
     console.print("\n")
+
     list_node: List[UUID] = [node_1, node_2, node_3, node_4]
 
     gadget1 = Gadget(node_3, node_1)
@@ -37,6 +39,7 @@ def test() -> None:
     gadget3.join("Left", gadget2, 6)"""
     gadget_algorithm([gadget1, gadget2, gadget3, gadget4], list_node)
 
-    """console.print(gadget1)
+    console.print(gadget1)
     console.print(gadget2)
-    console.print(gadget3)"""
+    console.print(gadget3)
+    console.print(gadget4)
