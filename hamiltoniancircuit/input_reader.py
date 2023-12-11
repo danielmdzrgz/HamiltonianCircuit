@@ -1,24 +1,36 @@
-from rich.console import Console
+"""
+This module contains functionalities to extract the input data from a yaml file.
+The yaml file must have the following structure:
 
+vertexes:
+  - A
+  - B
+  - C
+  - D
+
+edges:
+  - [A, B]
+  - [A, C]
+  - [A, D]
+  - [B, D]
+
+An example yaml file is provided in the root of the project with the name graph.yaml.
+"""
+
+from typing import Dict, List, Tuple
+from uuid import UUID, uuid4
 import yaml
-import networkx as nx
-import matplotlib.pyplot as plt
 
-console = Console()
 
-def run():
-    console.print("Hamiltonian Circuit", style="bold red")
+def read_graph() -> Tuple[Dict[str, UUID], List[str]]:
+    """Read the graph from a yaml file."""
+    with open("graph.yaml", encoding="UTF-8") as yaml_graph:
+        data = yaml.safe_load(yaml_graph)
 
-    with open('graph.yaml', encoding="UTF-8") as grafo_yaml:
-        grafo_datos = yaml.safe_load(grafo_yaml)
+    edge_data: List[str] = [edge[0] + "-" + edge[1] for edge in data["edges"]]
 
-    graph = nx.Graph()
+    vertexes_uuid: Dict[str, UUID] = {}
+    for node in data["vertexes"]:
+        vertexes_uuid[node] = uuid4()
 
-    graph.add_nodes_from(grafo_datos['vertexes'])
-    graph.add_edges_from(grafo_datos['edges'])
-
-    plt.figure(figsize=(8, 6))
-    nx.draw(graph, with_labels=True, node_color='skyblue', node_size=1500,
-            edge_color='black', linewidths=1, font_size=15)
-    plt.title("Graph", fontsize=20)
-    plt.show()
+    return vertexes_uuid, edge_data
