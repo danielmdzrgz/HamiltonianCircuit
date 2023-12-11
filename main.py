@@ -10,12 +10,14 @@ from typing import List
 
 # from hamiltoniancircuit.gadget import Gadget
 
-# from hamiltoniancircuit.selector import Selector
+from hamiltoniancircuit.selector import Selector
+from hamiltoniancircuit.selector_tools import tools as s_tools
 from hamiltoniancircuit.input_reader import read_graph
 from hamiltoniancircuit.gadget_tools import tools as g_tools
 
 install()
 console = Console()
+
 
 def visualize_graph(vertexes: List[str], edges: List[str]) -> None:
     """Shows a graphical representation of the VC problem instance."""
@@ -75,7 +77,13 @@ def test() -> None:
     for gadget in connected_gadgets:
         console.print(gadget)
 
+    selectors: List[Selector] = s_tools.make_connections(2, gadgets)
+    for selector in selectors:
+        console.print(selector)
+
     visualize_graph(vertexes, edges)
+
+
     # selector = Selector()
     # selector.connect_gadget(gadget)
     # selector.connect_gadget(gadget2)

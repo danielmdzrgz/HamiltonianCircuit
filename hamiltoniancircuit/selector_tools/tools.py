@@ -10,23 +10,30 @@ from hamiltoniancircuit.gadget import Gadget
 from hamiltoniancircuit.selector import Selector
 
 
-def create_selectors(k_number: int) -> List[Selector]:
+def create_selectors(k_number: int, selector: Selector) -> List[Selector]:
     """Create the selectors for the transformation."""
-    selectors: List[Selector] = []
-    for _ in range(k_number):
-        selectors.append(Selector())
-
-    return selectors
+    selector_list: List[Selector] = [selector]
+    selector_list.extend([Selector(selector) for _ in range(k_number - 1)])
+    return selector_list
 
 
 def make_connections(k_number_selectors: int, gadgets: List[Gadget]) -> List[Selector]:
     """Create the selectors and then make the connectios with the gadgets"""
-    selector_list: List[Selector] = create_selectors(k_number_selectors)
-
+    selector: Selector = Selector()
     for gadget in gadgets:
-        print(gadget.left_[1] + gadget.right_[1])
-        if any(connection == {} for connection in gadget.left_[1] + gadget.right_[1]):
-            for selector in selector_list:
-                selector.connect_gadget(gadget)
+        gadget_left = gadget.left_.gadget_nodes
+        gadget_right = gadget.right_.gadget_nodes
 
-    return selector_list
+        if not gadget_left.get(1):
+            selector.connect_gadget(gadget, "Left", 1)
+
+        if not gadget_left.get(6):
+            selector.connect_gadget(gadget, "Left", 6)
+
+        if not gadget_right.get(1):
+            selector.connect_gadget(gadget, "Right", 1)
+        
+        if not gadget_right.get(6):
+            selector.connect_gadget(gadget, "Right", 6)
+
+    return create_selectors(k_number_selectors, selector)
