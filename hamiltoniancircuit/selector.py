@@ -26,15 +26,19 @@ class Selector:
         type(self).number_of_selectors += 1
         self.id = type(self).number_of_selectors
 
-    def connect_gadget(self, gadget: Gadget, side: GadgetSideType, position: int) -> None:
+    def connect_gadget(
+        self, gadget: Gadget, side: GadgetSideType, position: int
+    ) -> None:
         """Conect the selector to a gadget."""
         gadget_entry = self.conections_.get(gadget)
         if gadget_entry is None:
             self.conections_[gadget] = {side: [position]}
             return
-            
+
         if position in gadget_entry.get(side, []):
-            raise ValueError("Cannot connect selector to the same position of a gadget twice.")
+            raise ValueError(
+                "Cannot connect selector to the same position of a gadget twice."
+            )
 
         side_entry = gadget_entry.get(side)
         if side_entry:
@@ -43,17 +47,20 @@ class Selector:
 
         gadget_entry[side] = [position]
 
-
     def __str__(self) -> str:
         """Return a string representation of the selector."""
-        # connections = "; ".join(
-        #     [
-        #         f"G-{gadget.id}: {', '.join(
-        #             [
-        #                 f"{side}: {", ".join([str(pos) for pos in positions])}" 
-        #                 for side, positions in sides.items())}"
-        #             ])}
-        #         for gadget, sides in self.conections_.items()""
-        #     ]
-        # )
-        return f"Selector ID: {self.id}, Connections: []"
+        sides_str: List[str] = []
+        for sides in self.conections_.values():
+            side_str = ", ".join(
+                f"{side}: [{', '.join([str(pos) for pos in positions])}]"
+                for side, positions in sides.items()
+            )
+            sides_str.append(side_str)
+
+        connections = "; ".join(
+            [
+                f"G-{gadget.id}: {side_str}"
+                for gadget, side_str in zip(self.conections_.keys(), sides_str)
+            ]
+        )
+        return f"Selector ID: {self.id}, Connections: [{connections}]"

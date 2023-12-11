@@ -24,9 +24,6 @@ def make_connections(k_number_selectors: int, gadgets: List[Gadget]) -> List[Sel
         gadget_left = gadget.left_.gadget_nodes
         gadget_right = gadget.right_.gadget_nodes
 
-        #TODO indicar de que posicion se conecta el gadget y poder conectarse el 1 y 6 de
-        #TODO un gadget en caso de ser necesario (probablemente haya que cambiar la estructura 
-        #TODO de selector para poder hacer este cambio, metodo connect_gadget)
         if not gadget_left.get(1):
             selector.connect_gadget(gadget, "Left", 1)
 
