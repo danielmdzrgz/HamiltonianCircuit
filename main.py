@@ -6,6 +6,7 @@ from rich.console import Console
 # temporal imports until visualization logic is moved to a separate module
 import networkx as nx
 import matplotlib.pyplot as plt
+from typing import List
 
 # from hamiltoniancircuit.gadget import Gadget
 
@@ -16,12 +17,12 @@ from hamiltoniancircuit.gadget_tools import tools as g_tools
 install()
 console = Console()
 
-def visualize_graph(vertexes, edges):
+def visualize_graph(vertexes: List[str], edges: List[str]) -> None:
     """Shows a graphical representation of the VC problem instance."""
     console.print("Vertex Cover original instance", style="bold red")
 
     graph = nx.Graph()
-    edge_representation = [edge.split("-") for edge in edges]
+    edge_representation: List[List[str]] = [edge.split("-") for edge in edges]
     graph.add_nodes_from(vertexes)
     graph.add_edges_from(edge_representation)
 

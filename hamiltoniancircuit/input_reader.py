@@ -27,7 +27,7 @@ def read_graph() -> Tuple[Dict[str, UUID], List[str]]:
     with open("graph.yaml", encoding="UTF-8") as yaml_graph:
         data = yaml.safe_load(yaml_graph)
 
-    edge_data = [edge[0] + "-" + edge[1] for edge in data["edges"]]
+    edge_data: List[str] = [edge[0] + "-" + edge[1] for edge in data["edges"]]
 
     vertexes_uuid: Dict[str, UUID] = {}
     for node in data["vertexes"]:
