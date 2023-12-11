@@ -19,7 +19,7 @@ def create_gadgets(vertexes: Dict[str, UUID], edges: List[str]) -> List[Gadget]:
         edge = edge.split("-")
         node_1 = vertexes[edge[0]]
         node_2 = vertexes[edge[1]]
-        gadgets.append(Gadget(node_1, node_2))
+        gadgets.append(Gadget(node_2, node_1))
 
     return gadgets
 
