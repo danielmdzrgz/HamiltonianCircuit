@@ -7,7 +7,7 @@ Gadgets are used to connect the new graph based on the Vertex Cover instance'e e
 
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Dict, List, Literal, Union
+from typing import Dict, Literal, Union
 from uuid import UUID
 
 
@@ -22,12 +22,12 @@ class Gadget:
         """Gadget side class."""
 
         node_id: UUID
-        gadget_nodes: List[Dict[int, Gadget]]
+        gadget_nodes: Dict[int, Gadget]
 
     def __init__(self, right_id: UUID, left_id: UUID) -> None:
         """Initialize a gadget."""
-        self.right_: Gadget.GadgetSide = Gadget.GadgetSide(right_id, [])
-        self.left_: Gadget.GadgetSide = Gadget.GadgetSide(left_id, [])
+        self.right_: Gadget.GadgetSide = Gadget.GadgetSide(right_id, {})
+        self.left_: Gadget.GadgetSide = Gadget.GadgetSide(left_id, {})
 
         type(self).number_of_gadgets += 1
         self.id = type(self).number_of_gadgets
@@ -38,24 +38,24 @@ class Gadget:
 
     def contains_gadget(self, gadget: Gadget) -> bool:
         """Return True if the gadget contains the gadget."""
-        return any(
-            gadget in dct.values()
-            for dct in self.right_.gadget_nodes + self.left_.gadget_nodes
+        return (
+            gadget in self.right_.gadget_nodes.values()
+            or gadget in self.left_.gadget_nodes.values()
         )
 
     def join_right(self, gadget: Gadget, position) -> None:
         """Join a gadget to the right."""
-        if any(position in dct for dct in self.right_.gadget_nodes):
+        if position in self.right_.gadget_nodes:
             raise ValueError("Position already taken in right side.")
 
-        self.right_.gadget_nodes.append({position: gadget})
+        self.right_.gadget_nodes[position] =  gadget
 
     def join_left(self, gadget: Gadget, position) -> None:
         """Join a gadget to the left."""
-        if any(position in dct for dct in self.left_.gadget_nodes):
+        if position in self.left_.gadget_nodes:
             raise ValueError("Position already taken in left side.")
 
-        self.left_.gadget_nodes.append({position: gadget})
+        self.left_.gadget_nodes[position] =  gadget
 
     def join(
         self,
@@ -86,16 +86,14 @@ class Gadget:
         right_connections = ", ".join(
             [
                 f"{key}: G-{gadget.id}"
-                for dct in self.right_.gadget_nodes
-                for key, gadget in dct.items()
+                for key, gadget in self.right_.gadget_nodes.items()
             ]
         )
 
         left_connections = ", ".join(
             [
                 f"{key}: G-{gadget.id}"
-                for dct in self.left_.gadget_nodes
-                for key, gadget in dct.items()
+                for key, gadget in self.left_.gadget_nodes.items()
             ]
         )
 
