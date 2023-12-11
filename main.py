@@ -82,7 +82,8 @@ def test() -> None:
     for selector in selectors:
         console.print(selector)
 
-    visualize_graph(list(vertexes.keys()), edges)
+    #visualize_graph(list(vertexes.keys()), edges)
+
 
     # selector = Selector()
     # selector.connect_gadget(gadget)

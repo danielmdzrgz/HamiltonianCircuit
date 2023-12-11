@@ -19,31 +19,41 @@ class Selector:
 
     def __init__(self, selector: Union[Selector, None] = None) -> None:
         """Initialize a selector."""
-        self.conections_: Dict[Gadget, List[GadgetSideType]] = (
+        self.conections_: Dict[Gadget, Dict[GadgetSideType, List[int]]] = (
             {} if not selector else selector.conections_.copy()
         )
 
         type(self).number_of_selectors += 1
         self.id = type(self).number_of_selectors
 
-    def connect_gadget(self, gadget: Gadget, side: GadgetSideType) -> None:
+    def connect_gadget(self, gadget: Gadget, side: GadgetSideType, position: int) -> None:
         """Conect the selector to a gadget."""
-        if side in self.conections_.get(gadget, []):
-            raise ValueError("Cannot connect selector to the same gadget twice.")
-
         gadget_entry = self.conections_.get(gadget)
-        if gadget_entry:
-            gadget_entry.append(side)
+        if gadget_entry is None:
+            self.conections_[gadget] = {side: [position]}
+            return
+            
+        if position in gadget_entry.get(side, []):
+            raise ValueError("Cannot connect selector to the same position of a gadget twice.")
+
+        side_entry = gadget_entry.get(side)
+        if side_entry:
+            side_entry.append(position)
             return
 
-        self.conections_[gadget] = [side]
+        gadget_entry[side] = [position]
+
 
     def __str__(self) -> str:
         """Return a string representation of the selector."""
-        connections = "; ".join(
-            [
-                f"G-{gadget.id}: {', '.join(sides)}"
-                for gadget, sides in self.conections_.items()
-            ]
-        )
-        return f"Selector ID: {self.id}, Connections: [{connections}]"
+        # connections = "; ".join(
+        #     [
+        #         f"G-{gadget.id}: {', '.join(
+        #             [
+        #                 f"{side}: {", ".join([str(pos) for pos in positions])}" 
+        #                 for side, positions in sides.items())}"
+        #             ])}
+        #         for gadget, sides in self.conections_.items()""
+        #     ]
+        # )
+        return f"Selector ID: {self.id}, Connections: []"

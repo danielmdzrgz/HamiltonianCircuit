@@ -27,10 +27,16 @@ def make_connections(k_number_selectors: int, gadgets: List[Gadget]) -> List[Sel
         #TODO indicar de que posicion se conecta el gadget y poder conectarse el 1 y 6 de
         #TODO un gadget en caso de ser necesario (probablemente haya que cambiar la estructura 
         #TODO de selector para poder hacer este cambio, metodo connect_gadget)
-        if not gadget_left.get(1) or not gadget_left.get(6):
-            selector.connect_gadget(gadget, "Left")
+        if not gadget_left.get(1):
+            selector.connect_gadget(gadget, "Left", 1)
 
-        if not gadget_right.get(1) or not gadget_right.get(6):
-            selector.connect_gadget(gadget, "Right")
+        if not gadget_left.get(6):
+            selector.connect_gadget(gadget, "Left", 6)
+
+        if not gadget_right.get(1):
+            selector.connect_gadget(gadget, "Right", 1)
+        
+        if not gadget_right.get(6):
+            selector.connect_gadget(gadget, "Right", 6)
 
     return create_selectors(k_number_selectors, selector)
