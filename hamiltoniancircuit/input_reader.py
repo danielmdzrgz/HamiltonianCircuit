@@ -1,12 +1,25 @@
 """
+This module contains functionalities to extract the input data from a yaml file.
+The yaml file must have the following structure:
+
+vertexes:
+  - A
+  - B
+  - C
+  - D
+
+edges:
+  - [A, B]
+  - [A, C]
+  - [A, D]
+  - [B, D]
+
+An example yaml file is provided in the root of the project with the name graph.yaml.
 """
 
 from typing import Dict, List, Tuple
 from uuid import UUID, uuid4
-from rich.console import Console
 import yaml
-import networkx as nx
-import matplotlib.pyplot as plt
 
 
 def read_graph() -> Tuple[Dict[str, UUID], List[str]]:
