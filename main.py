@@ -4,6 +4,10 @@ from uuid import uuid4
 from rich.traceback import install
 from rich.console import Console
 from hamiltoniancircuit.gadget import Gadget
+# from hamiltoniancircuit.selector import Selector
+from hamiltoniancircuit.input_reader import read_graph
+from hamiltoniancircuit.gadget_tools.tools import create_gadgets
+from hamiltoniancircuit.gadget_algorithm import gadget_algorithm
 
 install()
 console = Console()
@@ -11,8 +15,12 @@ console = Console()
 
 def test() -> None:
     """a"""
-    graph_data = input_reader.read_graph()
-    gadgets = create_gadgets(graph_data)
+    vertexes, edges = read_graph()
+    gadgets = create_gadgets(vertexes, edges)
+
+    for vertex, vertex_id in vertexes.items():
+        console.print(f"{vertex}: {vertex_id}")
+
     for gadget in gadgets:
         console.print(gadget)
 

@@ -5,23 +5,18 @@ The functions are:
 """
 
 from typing import Dict, List
-import uuid
+from uuid import UUID
 from hamiltoniancircuit.gadget import Gadget
 
 
-def create_gadgets(
-    graph_data: Dict[str, List[str]]
-) -> List[Gadget]:
+def create_gadgets(vertexes: Dict[str, UUID], edges: List[str]) -> List[Gadget]:
     """Create the gadgets for the transformation based on the original graph."""
     gadgets: List[Gadget] = []
-    vertex_uuids: Dict[str, uuid.UUID] = {}
-    for node in graph_data["vertexes"]:
-        vertex_uuids[node] = uuid.uuid4()
 
-    for edge in graph_data["edges"]:
+    for edge in edges:
         edge = edge.split("-")
-        node_1 = vertex_uuids[edge[0]]
-        node_2 = vertex_uuids[edge[1]]
+        node_1 = vertexes[edge[0]]
+        node_2 = vertexes[edge[1]]
         gadgets.append(Gadget(node_1, node_2))
 
     return gadgets
