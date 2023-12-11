@@ -3,6 +3,10 @@
 from rich.traceback import install
 from rich.console import Console
 
+# temporal imports until visualization logic is moved to a separate module
+import networkx as nx
+import matplotlib.pyplot as plt
+
 # from hamiltoniancircuit.gadget import Gadget
 
 # from hamiltoniancircuit.selector import Selector
@@ -11,6 +15,28 @@ from hamiltoniancircuit.gadget_tools import tools as g_tools
 
 install()
 console = Console()
+
+def visualize_graph(vertexes, edges):
+    """Shows a graphical representation of the VC problem instance."""
+    console.print("Vertex Cover original instance", style="bold red")
+
+    graph = nx.Graph()
+    edge_representation = [edge.split("-") for edge in edges]
+    graph.add_nodes_from(vertexes)
+    graph.add_edges_from(edge_representation)
+
+    plt.figure(figsize=(8, 6))
+    nx.draw(
+        graph,
+        with_labels=True,
+        node_color="skyblue",
+        node_size=1500,
+        edge_color="black",
+        linewidths=1,
+        font_size=15,
+    )
+    plt.title("Graph", fontsize=20)
+    plt.show()
 
 
 def test() -> None:
@@ -49,6 +75,7 @@ def test() -> None:
     for gadget in connected_gadgets:
         console.print(gadget)
 
+    visualize_graph(list(vertexes.keys()), edges)
     # selector = Selector()
     # selector.connect_gadget(gadget)
     # selector.connect_gadget(gadget2)
