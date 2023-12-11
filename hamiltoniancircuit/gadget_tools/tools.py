@@ -6,25 +6,28 @@ The functions are:
     that belong to the same node.
 """
 
-from typing import Dict, List, Literal, Union
-from uuid import UUID
+from typing import List, Literal, Union
 from hamiltoniancircuit.gadget import Gadget
 
 
-def create_gadgets(vertexes: Dict[str, UUID], edges: List[str]) -> List[Gadget]:
+def create_gadgets(vertexes: List[str], edges: List[str]) -> List[Gadget]:
     """Create the gadgets for the transformation based on the original graph."""
     gadgets: List[Gadget] = []
 
     for edge in edges:
         edge = edge.split("-")
-        node_1 = vertexes[edge[0]]
-        node_2 = vertexes[edge[1]]
+        node_1 = edge[0]
+        node_2 = edge[1]
+
+        if node_1 not in vertexes or node_2 not in vertexes:
+            raise ValueError("Invalid edge.")
+
         gadgets.append(Gadget(node_2, node_1))
 
     return gadgets
 
 
-def connect_gadget_groups(gadgets: List[Gadget], nodes: List[UUID]) -> List[Gadget]:
+def connect_gadget_groups(gadgets: List[Gadget], nodes: List[str]) -> List[Gadget]:
     """Connects the gadgets that belong to the same node."""
     for node in nodes:
         current_gadget: Union[Gadget, None] = None

@@ -46,8 +46,8 @@ def test() -> None:
     gadgets = g_tools.create_gadgets(vertexes, edges)
 
     console.print("Nodes:", style="bold blue")
-    for vertex, vertex_id in vertexes.items():
-        console.print(f"{vertex}: {vertex_id}")
+    for vertex in vertexes:
+        console.print(f"{vertex}")
 
     console.print("Gadgets:", style="bold blue")
     for gadget in gadgets:
@@ -70,13 +70,12 @@ def test() -> None:
 
     # gadgets = [gadget1, gadget2, gadget3, gadget4, gadget5]
     console.print("Connected gadgets:", style="bold green")
-    nodes = list(vertexes.values())
-    connected_gadgets = g_tools.connect_gadget_groups(gadgets, nodes)
+    connected_gadgets = g_tools.connect_gadget_groups(gadgets=gadgets, nodes=vertexes)
 
     for gadget in connected_gadgets:
         console.print(gadget)
 
-    visualize_graph(list(vertexes.keys()), edges)
+    visualize_graph(vertexes, edges)
     # selector = Selector()
     # selector.connect_gadget(gadget)
     # selector.connect_gadget(gadget2)

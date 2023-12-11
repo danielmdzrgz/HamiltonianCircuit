@@ -8,7 +8,6 @@ Gadgets are used to connect the new graph based on the Vertex Cover instance'e e
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, Literal, Union
-from uuid import UUID
 
 
 class Gadget:
@@ -20,11 +19,10 @@ class Gadget:
     @dataclass
     class GadgetSide:
         """Gadget side class."""
-
-        node_id: UUID
+        node_id: str
         gadget_nodes: Dict[int, Gadget]
 
-    def __init__(self, right_id: UUID, left_id: UUID) -> None:
+    def __init__(self, right_id: str, left_id: str) -> None:
         """Initialize a gadget."""
         self.right_: Gadget.GadgetSide = Gadget.GadgetSide(right_id, {})
         self.left_: Gadget.GadgetSide = Gadget.GadgetSide(left_id, {})
@@ -32,7 +30,7 @@ class Gadget:
         type(self).number_of_gadgets += 1
         self.id = type(self).number_of_gadgets
 
-    def contains_node(self, node: UUID) -> bool:
+    def contains_node(self, node: str) -> bool:
         """Return True if the gadget contains the node."""
         return node in (self.right_.node_id, self.left_.node_id)
 
