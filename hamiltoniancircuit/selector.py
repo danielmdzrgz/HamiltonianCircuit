@@ -9,6 +9,10 @@ from __future__ import annotations
 from typing import Dict, List, Literal, Union
 from hamiltoniancircuit.gadget import Gadget
 
+from rich.table import Table
+from rich.console import Console
+from rich import box
+
 GadgetSideType = Union[Literal["Left"], Literal["Right"]]
 
 
@@ -19,8 +23,8 @@ class Selector:
 
     def __init__(self, selector: Union[Selector, None] = None) -> None:
         """Initialize a selector."""
-        self.conections_: Dict[Gadget, Dict[GadgetSideType, List[int]]] = (
-            {} if not selector else selector.conections_.copy()
+        self.connections_: Dict[Gadget, Dict[GadgetSideType, List[int]]] = (
+            {} if not selector else selector.connections_.copy()
         )
 
         type(self).number_of_selectors += 1
@@ -30,9 +34,9 @@ class Selector:
         self, gadget: Gadget, side: GadgetSideType, position: int
     ) -> None:
         """Conect the selector to a gadget."""
-        gadget_entry = self.conections_.get(gadget)
+        gadget_entry = self.connections_.get(gadget)
         if gadget_entry is None:
-            self.conections_[gadget] = {side: [position]}
+            self.connections_[gadget] = {side: [position]}
             return
 
         if position in gadget_entry.get(side, []):
@@ -47,20 +51,35 @@ class Selector:
 
         gadget_entry[side] = [position]
 
-    def __str__(self) -> str:
-        """Return a string representation of the selector."""
-        sides_str: List[str] = []
-        for sides in self.conections_.values():
-            side_str = ", ".join(
-                f"{side}: [{', '.join([str(pos) for pos in positions])}]"
-                for side, positions in sides.items()
-            )
-            sides_str.append(side_str)
+    def to_table_data(self):
+        """Prepare data for tabular representation."""
+        table_data = []
+        for gadget, sides in self.connections_.items():
+            for side, positions in sides.items():
+                table_data.append([f"G-{gadget.id}", side, ", ".join(map(str, positions))])
+        return table_data
+    
+    def print_table(self) -> None:
+        table = Table(title=f"Selector id: {self.id}", box=box.SIMPLE, show_header=True, header_style="bold")
 
-        connections = "; ".join(
-            [
-                f"G-{gadget.id}: {side_str}"
-                for gadget, side_str in zip(self.conections_.keys(), sides_str)
-            ]
-        )
-        return f"Selector ID: {self.id}, Connections: [{connections}]"
+        table.add_column("Gadget ID")
+        table.add_column("Connections", justify="center")
+
+        max_len_left = max(len(', '.join(map(str, sides.get("Left", [])))) for _, sides in self.connections_.items())
+        max_len_right = max(len(', '.join(map(str, sides.get("Right", [])))) for _, sides in self.connections_.items())
+
+        for gadget, sides in self.connections_.items():
+            left_positions = ', '.join(map(str, sides.get("Left", []))) if sides.get("Left") else " "
+            right_positions = ', '.join(map(str, sides.get("Right", []))) if sides.get("Right") else " "
+
+            left_positions_formatted = f"{left_positions: <{max_len_left}}"
+            right_positions_formatted = f"{right_positions: >{max_len_right}}"
+
+            left_connection = "[green]❚[/green]" if "Left" in sides and sides["Left"] else "[white]❚[/white]"
+            right_connection = "[green]❚[/green]" if "Right" in sides and sides["Right"] else "[white]❚[/white]"
+
+            connection_str = f"{left_positions_formatted} {left_connection} {right_connection} {right_positions_formatted}"
+            table.add_row(f"G-{gadget.id}", connection_str)
+
+        console = Console()
+        console.print(table)

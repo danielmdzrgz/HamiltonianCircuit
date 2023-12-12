@@ -10,6 +10,7 @@ python = "^3.11"
 pyyaml = "^6.0.1"
 matplotlib = "^3.8.2"
 networkx = "^3.2.1"
+tabulate = "^0.9.0"
 
 [tool.poetry.group.dev.dependencies]
 rich = "^13.7.0"
