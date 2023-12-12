@@ -14,6 +14,7 @@ from hamiltoniancircuit.selector import Selector
 from hamiltoniancircuit.selector_tools import tools as s_tools
 from hamiltoniancircuit.input_reader import read_graph
 from hamiltoniancircuit.gadget_tools import tools as g_tools
+from hamiltoniancircuit.gadget import Gadget
 
 install()
 console = Console()
@@ -41,19 +42,19 @@ def visualize_graph(vertexes: List[str], edges: List[str]) -> None:
     plt.title("Graph", fontsize=20)
     plt.show()
 
-
 def test() -> None:
     """a"""
     vertexes, edges = read_graph()
     gadgets = g_tools.create_gadgets(vertexes, edges)
 
     console.print("Nodes:", style="bold blue")
-    for vertex in vertexes:
-        console.print(f"{vertex}")
+    console.print(" ".join(vertexes))
 
     console.print("Gadgets:", style="bold blue")
     for gadget in gadgets:
         console.print(gadget)
+
+    console.print("")
 
     # node_1 = uuid4()
     # node_2 = uuid4()
@@ -71,15 +72,13 @@ def test() -> None:
     # gadget.join("Right", gadget3, "Right")
 
     # gadgets = [gadget1, gadget2, gadget3, gadget4, gadget5]
-    console.print("Connected gadgets:", style="bold green")
     connected_gadgets = g_tools.connect_gadget_groups(gadgets=gadgets, nodes=vertexes)
 
-    for gadget in connected_gadgets:
-        console.print(gadget)
+    Gadget.print_table(connected_gadgets)
 
     selectors: List[Selector] = s_tools.make_connections(2, gadgets)
     for selector in selectors:
-        console.print(selector)
+        selector.print_table()
 
     visualize_graph(vertexes, edges)
 

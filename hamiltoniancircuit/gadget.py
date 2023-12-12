@@ -7,8 +7,11 @@ Gadgets are used to connect the new graph based on the Vertex Cover instance'e e
 
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Dict, Literal, Union
+from typing import Dict, Literal, Union, List
+from rich.console import Console
+from rich import box
 
+from rich.table import Table
 
 class Gadget:
     """Gadget class for Hamiltonian Circuit problem."""
@@ -108,6 +111,21 @@ class Gadget:
         )
 
         return f"Gadget ID: {self.id}, {right_str}, {left_str}"
+    
+    @staticmethod
+    def print_table(gadgets: List[Gadget]) -> None:
+        table = Table(title="Gadget Connections", box=box.SIMPLE, show_header=True, header_style="bold")
+        table.add_column("Gadget ID", style="dim")
+        table.add_column("Left Connections")
+        table.add_column("Right Connections")
+
+        for gadget in gadgets:
+            left_connections = ", ".join([f"{key}: G-{gadget.left_.gadget_nodes[key].id}" for key in gadget.left_.gadget_nodes])
+            right_connections = ", ".join([f"{key}: G-{gadget.right_.gadget_nodes[key].id}" for key in gadget.right_.gadget_nodes])
+            table.add_row(str(gadget.id), left_connections, right_connections)
+
+        console = Console()
+        console.print(table)
 
     @staticmethod
     def get_number_of_gadgets() -> int:
